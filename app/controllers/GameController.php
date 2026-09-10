@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class GameController
+class GameController extends BaseController
 {
     public function list()
     {
