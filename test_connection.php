@@ -13,6 +13,8 @@ try {
     echo "Falha ao conectar à base de dados: " . $e->getMessage();
 }
 
+$pdo = Database::getConnection();
+
 $resultado = $pdo->query("SELECT COUNT(*) as total FROM users");
 $linha = $resultado->fetch();
 echo "\nTotal de usuários: " . $linha['total'];
