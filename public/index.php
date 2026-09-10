@@ -2,19 +2,13 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
 
-$routes = [
-    '/' => ['App\Controllers\HomeController', 'index'],
-    '/games' => ['App\Controllers\GameController', 'list'],
-    '/login' => ['App\Controllers\AuthController', 'loginForm'],
-];
+use App\Router;
 
-if (array_key_exists($uri, $routes)) {
-    [$controllerName, $methodName] = $routes[$uri];
-    $controller = new $controllerName();
-    $controller->$methodName();
-} else {
-    http_response_code(404);
-    echo "Página não encontrada.";
-}
+$router = new Router();
+$router->add('/', 'App\Controllers\HomeController', 'index');
+$router->add('/games', 'App\Controllers\GameController', 'list');
+$router->add('/login', 'App\Controllers\AuthController', 'loginForm');
+$router->dispatch();
