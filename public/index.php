@@ -1,13 +1,13 @@
 <?php
 
-require_once __DIR__ . '/../app/Controllers/HomeController.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 $routes = [
-    '/' => ['HomeController', 'index'],
-    '/games' => ['GameController', 'list'],
-    '/login' => ['AuthController', 'loginForm'],
+    '/' => ['App\Controllers\HomeController', 'index'],
+    '/games' => ['App\Controllers\GameController', 'list'],
+    '/login' => ['App\Controllers\AuthController', 'loginForm'],
 ];
 
 if (array_key_exists($uri, $routes)) {
