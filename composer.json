@@ -1,5 +1,7 @@
 {
     "name": "redriz/gameswap",
     "description": "Buy, sell and trade games.",
-    "require": {}
+    "require": {
+        "vlucas/phpdotenv": "^5.7"
+    }
 }
