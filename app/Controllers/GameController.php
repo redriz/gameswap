@@ -6,6 +6,6 @@ class GameController extends BaseController
 {
     public function list()
     {
-        echo "Lista de jogos (em construção)";
+        $this->render('games/list', ['title' => 'Jogos disponíveis - Início']);
     }
 }

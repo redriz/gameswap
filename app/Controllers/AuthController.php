@@ -6,6 +6,6 @@ class AuthController extends BaseController
 {
     public function loginForm()
     {
-        echo "Formulário de login (em construção)";
+        $this->render('auth/login', ['title' => 'Iniciar sessão']);
     }
 }
