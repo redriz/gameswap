@@ -1,27 +1,16 @@
-<!DOCTYPE html>
-<html lang="pt">
+<img src="<?= $game['hero_url'] ?>" class="img-fluid rounded mb-3 w-100">
+<?php if (!empty($game['logo_url'])): ?>
+    <img src="<?= $game['logo_url'] ?>" style="max-width:300px;" class="mb-3">
+<?php else: ?>
+    <h1><?= $game['name'] ?></h1>
+<?php endif; ?>
 
-<head>
-    <meta charset="UTF-8">
-    <title><?= $title ?? 'Games' ?></title>
-</head>
+<p><?= $game['description'] ?></p>
+<p><strong>Developer:</strong> <?= $game['developer'] ?></p>
+<p><strong>Publisher:</strong> <?= $game['publisher'] ?></p>
+<p class="fs-4 text-success">€<?= $game['price_discounted'] ?></p>
 
-<body>
-    <img src="<?= $game['hero_url'] ?>" alt="" style="width:100%;">
-    <img src="<?= $game['logo_url'] ?>" alt="" style="max-width:300px;">
-
-    <?php if (empty($game['logo_url'])): ?>
-        <h1><?= $game['name'] ?></h1>
-    <?php endif; ?>
-    <p><?= $game['description'] ?></p>
-    <p>Developer: <?= $game['developer'] ?></p>
-    <p>Publisher: <?= $game['publisher'] ?></p>
-    <p>Preço: €<?= $game['price_discounted'] ?></p>
-
-    <form method="POST" action="/library/buy">
-        <input type="hidden" name="game_id" value="<?= $game['id'] ?>">
-        <button type="submit">Comprar (Loja Oficial)</button>
-    </form>
-</body>
-
-</html>
+<form method="POST" action="/library/buy">
+    <input type="hidden" name="game_id" value="<?= $game['id'] ?>">
+    <button type="submit" class="btn btn-danger">Comprar (Loja Oficial)</button>
+</form>

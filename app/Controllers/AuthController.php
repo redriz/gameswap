@@ -8,11 +8,13 @@ class AuthController extends BaseController
 {
     public function loginForm()
     {
+        $this->requireGuest();
         $this->render('auth/login', ['title' => 'Iniciar sessão']);
     }
 
     public function registerForm()
     {
+        $this->requireGuest();
         $this->render('auth/register', ['title' => 'Criar conta']);
     }
 

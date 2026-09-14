@@ -1,25 +1,16 @@
-<!DOCTYPE html>
-<html lang="pt">
-
-<head>
-    <meta charset="UTF-8">
-    <title><?= $title ?? 'Games' ?></title>
-</head>
-
-<body>
-    <h1><?= $title ?? 'Games' ?></h1>
-
-    <div>
-        <?php foreach ($games as $game): ?>
-            <div style="display:inline-block; margin:10px;">
-                <a href="/game?steam_app_id=<?= $game['steam_app_id'] ?>">
-                    <img src="<?= $game['capsule_url'] ?>" alt="<?= $game['name'] ?>" width="200">
-                    <p><?= $game['name'] ?></p>
-                    <p>€<?= $game['price_discounted'] ?></p>
-                </a>
-            </div>
-        <?php endforeach; ?>
-    </div>
-</body>
-
-</html>
+<h1 class="mb-4"><?= $title ?></h1>
+<div class="row row-cols-2 row-cols-md-4 g-4">
+    <?php foreach ($games as $game): ?>
+        <div class="col">
+            <a href="/game?steam_app_id=<?= $game['steam_app_id'] ?>" class="text-decoration-none text-body">
+                <div class="card h-100 bg-dark-subtle">
+                    <img src="<?= $game['capsule_url'] ?>" class="card-img-top">
+                    <div class="card-body">
+                        <p class="card-text small fw-bold"><?= $game['name'] ?></p>
+                        <p class="card-text text-success">€<?= $game['price_discounted'] ?></p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    <?php endforeach; ?>
+</div>

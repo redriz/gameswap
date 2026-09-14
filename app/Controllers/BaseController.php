@@ -7,13 +7,27 @@ class BaseController
     protected function render(string $view, array $data = []): void
     {
         extract($data);
-        require_once __DIR__ . '/../Views/' . $view . '.php';
+        $title = $data['title'] ?? 'GameSwap';
+
+        ob_start();
+        require __DIR__ . '/../Views/' . $view . '.php';
+        $content = ob_get_clean();
+
+        require __DIR__ . '/../Views/layout.php';
     }
 
     protected function requireAuth(): void
     {
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
+            exit;
+        }
+    }
+
+    protected function requireGuest(): void
+    {
+        if (isset($_SESSION['user_id'])) {
+            header('Location: /games');
             exit;
         }
     }
