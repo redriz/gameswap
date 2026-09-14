@@ -51,11 +51,14 @@ $$ LANGUAGE plpgsql;
 
 CREATE TABLE IF NOT EXISTS users (
     id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
     username VARCHAR(50) NOT NULL UNIQUE,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     email_verified BOOLEAN DEFAULT FALSE,
+    gender VARCHAR(20) NOT NULL CHECK (gender IN ('male', 'female', 'prefer_not_to_say')),
+    birht_date DATE NOT NULL,
     last_login TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_admin BOOLEAN DEFAULT FALSE,
@@ -83,6 +86,18 @@ CREATE TRIGGER trigger_games_updated_at
 BEFORE UPDATE ON games
 FOR EACH ROW
 EXECUTE FUNCTION set_updated_at();
+
+CREATE TABLE IF NOT EXISTS genres (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS game_genres (
+    id BIGSERIAL PRIMARY KEY,
+    game_id BIGINT REFERENCES games(id) ON DELETE CASCADE,
+    genre_id BIGINT REFERENCES genres(id) ON DELETE RESTRICT,
+    UNIQUE(game_id, genre_id)
+);
 
 CREATE TABLE IF NOT EXISTS user_library (
     id BIGSERIAL PRIMARY KEY,

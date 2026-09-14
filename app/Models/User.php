@@ -16,13 +16,31 @@ class User
         return $result !== false;
     }
 
-    public static function create(string $name, string $username, string $email, string $password): int
-    {
+    public static function create(
+        string $firstName,
+        string $lastName,
+        string $username,
+        string $email,
+        string $password,
+        string $gender,
+        string $birthDate
+    ): int {
         $hash = password_hash($password, PASSWORD_DEFAULT);
         $pdo = Database::getConnection();
 
-        $stmt = $pdo->prepare("INSERT INTO users (name, username, email, password_hash) VALUES (:name, :username, :email, :password_hash)");
-        $stmt->execute(['name' => $name, 'username' => $username, 'email' => $email, 'password_hash' => $hash]);
+        $stmt = $pdo->prepare(
+            "INSERT INTO users (first_name, last_name, username, email, password_hash, gender, birth_date) VALUES (:first_name, :last_name, :username, :email, :password_hash, :gender, :birth_date)"
+        );
+        $stmt->execute([
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'username' => $username,
+            'email' => $email,
+            'password_hash' => $hash,
+            'gender' => $gender,
+            'birth_date' => $birthDate
+        ]);
+
         return (int) $pdo->lastInsertId();
     }
 }

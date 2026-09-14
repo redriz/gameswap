@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <title><?= $title ?></title>
+    <title><?= $title ?? 'Welcome to GameSwap' ?></title>
 </head>
 
 <body>
-    <h1><?= $title ?></h1>
+    <h1><?= $title ?? 'Welcome to GameSwap' ?></h1>
 </body>
 
 </html>

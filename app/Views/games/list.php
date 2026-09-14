@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <title><?= $title ?></title>
+    <title><?= $title ?? 'Games' ?></title>
 </head>
 
 <body>
-    <h1><?= $title ?> - Início</h1>
+    <h1><?= $title ?? 'Games' ?> - Início</h1>
 </body>
 
 </html>

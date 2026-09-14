@@ -18,33 +18,97 @@ class AuthController extends BaseController
 
     public function register()
     {
-        $name = $_POST['name'];
+        $firstName = $_POST['first_name'];
+        $lastName = $_POST['last_name'];
+        $gender = $_POST['gender'];
+        $birthDate = $_POST['birth_date'];
         $username = $_POST['username'];
         $email = $_POST['email'];
         $password = $_POST['password'];
         $passwordConfirmation = $_POST['password_confirmation'];
 
-        if (empty($name) || empty($username) || empty($email) || empty($password) || empty($passwordConfirmation)) {
-            $this->render('auth/register', ['title' => 'Criar conta', 'error' => 'Deve preencher todos os campos']);
+        if (empty($firstName) || empty($lastName) || empty($gender) || empty($birthDate) || empty($username) || empty($email) || empty($password) || empty($passwordConfirmation)) {
+            $this->render('auth/register', [
+                'title' => 'Criar conta',
+                'error' => 'Deve preencher todos os campos',
+                'old' => [
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
+                    'username' => $username,
+                    'email' => $email,
+                    'gender' => $gender,
+                    'birth_date' => $birthDate,
+                ]
+            ]);
+            return;
+        }
+
+        $idade = (new \DateTime())->diff(new \DateTime($birthDate))->y;
+        if ($idade < 13) {
+            $this->render('auth/register', [
+                'title' => 'Criar conta',
+                'error' => 'É necessário ter pelo menos 13 anos para criar uma conta',
+                'old' => [
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
+                    'username' => $username,
+                    'email' => $email,
+                    'gender' => $gender,
+                    'birth_date' => $birthDate,
+                ]
+            ]);
             return;
         }
 
         if ($password !== $passwordConfirmation) {
-            $this->render('auth/register', ['title' => 'Criar conta', 'error' => 'As palavras-passes não coincidem']);
+            $this->render('auth/register', [
+                'title' => 'Criar conta',
+                'error' => 'As palavras-passes não coincidem',
+                'old' => [
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
+                    'username' => $username,
+                    'email' => $email,
+                    'gender' => $gender,
+                    'birth_date' => $birthDate,
+                ]
+            ]);
             return;
         }
 
         if (strlen($password) < 8) {
-            $this->render('auth/register', ['title' => 'Criar conta', 'error' => 'Palavra-passe deve ter no mínimo 8 caracteres']);
+            $this->render('auth/register', [
+                'title' => 'Criar conta',
+                'error' => 'Palavra-passe deve ter no mínimo 8 caracteres',
+                'old' => [
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
+                    'username' => $username,
+                    'email' => $email,
+                    'gender' => $gender,
+                    'birth_date' => $birthDate,
+                ]
+            ]);
             return;
         }
 
         if (User::emailOrUsernameExists($email, $username)) {
-            $this->render('auth/register', ['title' => 'Criar conta', 'error' => 'Username ou Email já está em uso']);
+            $this->render('auth/register', [
+                'title' => 'Criar conta',
+                'error' => 'Username ou Email já está em uso',
+                'old' => [
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
+                    'username' => $username,
+                    'email' => $email,
+                    'gender' => $gender,
+                    'birth_date' => $birthDate,
+                ]
+            ]);
             return;
         }
 
-        $id = User::create($name, $username, $email, $password);
+        $id = User::create($firstName, $lastName, $username, $email, $password, $gender, $birthDate);
         echo "Usuário crido com sucesso! ID: " . $id;
     }
 }
