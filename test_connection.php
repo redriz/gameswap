@@ -18,4 +18,9 @@ $pdo = Database::getConnection();
 
 $resultado = $pdo->query("SELECT COUNT(*) as total FROM users");
 $linha = $resultado->fetch();
-echo "\nTotal de usuários: " . $linha['total'];
+echo "\nTotal de usuários: " . $linha['total'] . "\n";
+
+use App\Models\LedgerEntry;
+
+echo "User Balance: " . LedgerEntry::getUserBalance(1) . "\n"; // deve dar 15
+echo "Bank Balance: " . LedgerEntry::getBankBalance();  // deve dar 145

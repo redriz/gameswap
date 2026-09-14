@@ -27,4 +27,24 @@ class LedgerEntry
             'listing_id' => $listingId,
         ]);
     }
+
+    public static function getUserBalance(int $userId): float
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare("SELECT COALESCE(SUM(amount), 0) as balance FROM ledger_entries WHERE user_id = :user_id");
+        $stmt->execute(['user_id' => $userId]);
+        $result = $stmt->fetch();
+
+        return (float) $result['balance'];
+    }
+
+    public static function getBankBalance(): float
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare("SELECT COALESCE(SUM(amount), 0) as balance FROM ledger_entries WHERE bank_id = 1");
+        $stmt->execute();
+        $result = $stmt->fetch();
+
+        return (float) $result['balance'];
+    }
 }

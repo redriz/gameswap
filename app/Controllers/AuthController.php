@@ -134,4 +134,11 @@ class AuthController extends BaseController
 
         echo "Login bem-sucedido! Bem-vindo, " . $user['first_name'];
     }
+
+    public function logout()
+    {
+        session_destroy();
+        header('Location: /login');
+        exit;
+    }
 }

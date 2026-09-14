@@ -9,4 +9,12 @@ class BaseController
         extract($data);
         require_once __DIR__ . '/../Views/' . $view . '.php';
     }
+
+    protected function requireAuth(): void
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit;
+        }
+    }
 }
