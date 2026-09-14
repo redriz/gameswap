@@ -1,3 +1,11 @@
+<?php
+
+/** 
+ * @var string $title
+ */
+
+?>
+
 <div class="row justify-content-center">
     <div class="col-md-5">
         <h1><?= $title ?></h1>

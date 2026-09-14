@@ -1,3 +1,11 @@
+<?php
+
+/** 
+ * @var array $game
+ */
+
+?>
+
 <img src="<?= $game['hero_url'] ?>" class="img-fluid rounded mb-3 w-100">
 <?php if (!empty($game['logo_url'])): ?>
     <img src="<?= $game['logo_url'] ?>" style="max-width:300px;" class="mb-3">

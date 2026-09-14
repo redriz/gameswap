@@ -1,3 +1,12 @@
+<?php
+
+/** 
+ * @var string $title
+ * @var array $listings
+ */
+
+?>
+
 <h1 class="mb-4"><?= $title ?></h1>
 <div class="row row-cols-2 row-cols-md-4 g-4">
     <?php foreach ($listings as $listing): ?>

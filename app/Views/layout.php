@@ -1,3 +1,12 @@
+<?php
+
+/** 
+ * @var string $title
+ * @var string $content
+ */
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt" data-bs-theme="dark">
 
