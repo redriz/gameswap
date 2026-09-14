@@ -116,6 +116,8 @@ class AuthController extends BaseController
 
     public function login()
     {
+        $this->requireGuest();
+
         $identifier = $_POST['identifier'];
         $password = $_POST['password'];
 
@@ -134,7 +136,8 @@ class AuthController extends BaseController
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
 
-        echo "Login bem-sucedido! Bem-vindo, " . $user['first_name'];
+        header('Location: /games');
+        exit;
     }
 
     public function logout()

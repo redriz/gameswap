@@ -11,7 +11,7 @@ class User
     public static function emailOrUsernameExists(string $email, string $username): bool
     {
         $pdo = Database::getConnection();
-        $stmt = $pdo->prepare("SELECT id FROM users WHERE email = :email OR username = :username");
+        $stmt = $pdo->prepare("SELECT id FROM users WHERE LOWER(email) = LOWER(:email) OR LOWER(username) = LOWER(:username)");
         $stmt->execute(['email' => $email, 'username' => $username]);
         $result = $stmt->fetch();
         return $result !== false;
@@ -60,7 +60,7 @@ class User
     public static function findByEmailOrUsername(string $identifier): ?array
     {
         $pdo = Database::getConnection();
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE (email = :identifier OR username = :identifier) AND active = TRUE");
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE (LOWER(email) = LOWER(:identifier) OR LOWER(username) = LOWER(:identifier)) AND active = TRUE");
         $stmt->execute(['identifier' => $identifier]);
         $user = $stmt->fetch();
 
