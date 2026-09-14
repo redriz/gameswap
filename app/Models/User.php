@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Config\Database;
+use App\Models\LedgerEntry;
 use PDO;
 
 class User
@@ -28,19 +29,31 @@ class User
         $hash = password_hash($password, PASSWORD_DEFAULT);
         $pdo = Database::getConnection();
 
-        $stmt = $pdo->prepare(
-            "INSERT INTO users (first_name, last_name, username, email, password_hash, gender, birth_date) VALUES (:first_name, :last_name, :username, :email, :password_hash, :gender, :birth_date)"
-        );
-        $stmt->execute([
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-            'username' => $username,
-            'email' => $email,
-            'password_hash' => $hash,
-            'gender' => $gender,
-            'birth_date' => $birthDate
-        ]);
+        $pdo->beginTransaction();
 
-        return (int) $pdo->lastInsertId();
+        try {
+            $stmt = $pdo->prepare("INSERT INTO users (first_name, last_name, username, email, password_hash, gender, birth_date) VALUES (:first_name, :last_name, :username, :email, :password_hash, :gender, :birth_date)");
+            $stmt->execute([
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'username' => $username,
+                'email' => $email,
+                'password_hash' => $hash,
+                'gender' => $gender,
+                'birth_date' => $birthDate,
+            ]);
+
+            $id = (int) $pdo->lastInsertId();
+
+            LedgerEntry::createForUser($pdo, $id, 15.00, 'account_creation_bonus');
+            LedgerEntry::createForBank($pdo, 145.00, 'bank_new_user');
+
+            $pdo->commit();
+
+            return $id;
+        } catch (\Exception $e) {
+            $pdo->rollBack();
+            throw $e;
+        }
     }
 }
