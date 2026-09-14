@@ -8,4 +8,18 @@ class AuthController extends BaseController
     {
         $this->render('auth/login', ['title' => 'Iniciar sessão']);
     }
+
+    public function registerForm()
+    {
+        $this->render('auth/register', ['title' => 'Criar conta']);
+    }
+
+    public function register()
+    {
+        $name = $_POST['name'];
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $passwordConfirmation = $_POST['password_confirmation'];
+    }
 }

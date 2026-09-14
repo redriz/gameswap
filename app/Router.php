@@ -6,17 +6,20 @@ class Router
 {
     private array $routes = [];
 
-    public function add(string $uri, string $controller, string $method): void
+    public function add(string $httpMethod, string $uri, string $controller, string $method): void
     {
-        $this->routes[$uri] = [$controller, $method];
+        $key = strtoupper($httpMethod) . ' ' . $uri;
+        $this->routes[$key] = [$controller, $method];
     }
 
     public function dispatch(): void
     {
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $httpMethod = $_SERVER['REQUEST_METHOD'];
+        $key = strtoupper($httpMethod) . ' ' . $uri;
 
-        if (array_key_exists($uri, $this->routes)) {
-            [$controllerName, $methodName] = $this->routes[$uri];
+        if (array_key_exists($key, $this->routes)) {
+            [$controllerName, $methodName] = $this->routes[$key];
             $controller = new $controllerName();
             $controller->$methodName();
         } else {

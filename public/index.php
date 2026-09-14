@@ -8,7 +8,9 @@ $dotenv->load();
 use App\Router;
 
 $router = new Router();
-$router->add('/', 'App\Controllers\HomeController', 'index');
-$router->add('/games', 'App\Controllers\GameController', 'list');
-$router->add('/login', 'App\Controllers\AuthController', 'loginForm');
+$router->add('GET', '/', 'App\Controllers\HomeController', 'index');
+$router->add('GET', '/games', 'App\Controllers\GameController', 'list');
+$router->add('GET', '/login', 'App\Controllers\AuthController', 'loginForm');
+$router->add('GET', '/register', 'App\Controllers\AuthController', 'registerForm');
+$router->add('POST', '/register', 'App\Controllers\AuthController', 'register');
 $router->dispatch();
