@@ -56,4 +56,14 @@ class User
             throw $e;
         }
     }
+
+    public static function findByEmailOrUsername(string $identifier): ?array
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE (email = :identifier OR username = :identifier) AND active = TRUE");
+        $stmt->execute(['identifier' => $identifier]);
+        $user = $stmt->fetch();
+
+        return $user !== false ? $user : null;
+    }
 }

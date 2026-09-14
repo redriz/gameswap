@@ -111,4 +111,27 @@ class AuthController extends BaseController
         $id = User::create($firstName, $lastName, $username, $email, $password, $gender, $birthDate);
         echo "Usuário crido com sucesso! ID: " . $id;
     }
+
+    public function login()
+    {
+        $identifier = $_POST['identifier'];
+        $password = $_POST['password'];
+
+        if (empty($identifier) || empty($password)) {
+            $this->render('auth/login', ['title' => 'Iniciar sessão', 'error' => 'Preenche todos os campos']);
+            return;
+        }
+
+        $user = User::findByEmailOrUsername($identifier);
+
+        if (!$user || !password_verify($password, $user['password_hash'])) {
+            $this->render('auth/login', ['title' => 'Iniciar sessão', 'error' => 'Credenciais inválidas']);
+            return;
+        }
+
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
+
+        echo "Login bem-sucedido! Bem-vindo, " . $user['first_name'];
+    }
 }
