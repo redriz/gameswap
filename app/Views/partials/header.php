@@ -18,7 +18,7 @@ $balance = $isLoggedIn ? LedgerEntry::getUserBalance($_SESSION['user_id']) : nul
                 <li class="nav-item"><a class="nav-link" href="/games">Loja</a></li>
                 <li class="nav-item"><a class="nav-link" href="/marketplace">Marketplace</a></li>
                 <?php if ($isLoggedIn): ?>
-                    <li class="nav-item"><a class="nav-link" href="/library">Minha Biblioteca</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/library">Biblioteca</a></li>
                 <?php endif; ?>
             </ul>
             <ul class="navbar-nav ms-auto align-items-lg-center">
