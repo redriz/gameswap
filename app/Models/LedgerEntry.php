@@ -47,4 +47,12 @@ class LedgerEntry
 
         return (float) $result['balance'];
     }
+
+    public static function hasReceivedBonusToday(int $userId): bool
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare("SELECT id FROM ledger_entries WHERE user_id = :user_id AND reason = 'daily_bonus' AND created_at::date = CURRENT_DATE");
+        $stmt->execute(['user_id' => $userId]);
+        return $stmt->fetch() !== false;
+    }
 }
