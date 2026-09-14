@@ -13,7 +13,7 @@ class GameController extends BaseController
         $stmt = $pdo->query("SELECT * FROM games ORDER BY name ASC");
         $games = $stmt->fetchAll();
 
-        $this->render('games/list', ['title' => 'Loja Oficial', 'games' => $games]);
+        $this->render('games/list', ['title' => 'Loja', 'games' => $games]);
     }
 
     public function show()
